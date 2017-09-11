@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: lapis-blogx
+  name: lapis-blogx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lapis-blogx
+  template:
+    metadata:
+      labels:
+        app: lapis-blogx
+    spec:
+      containers:
+      - name: lapis-blogx
+        image: gcr.io/<project-id>/lapis-container:latest
+        volumeMounts:
+        - name: app
+          mountPath: /app
+        ports:
+        - containerPort: 8080
+      volumes:
+      - name: app
+        gcePersistentDisk:
+          pdName: lapis-blogx
+          fsType: ext4
